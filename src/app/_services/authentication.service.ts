@@ -19,8 +19,8 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username, password) {
-    return this.http.post<any>(`/users/authenticate`, { username, password })
+  login(email, password) {
+    return this.http.post<any>(`/users/authenticate`, { email, password })
       .pipe(map(user => {
         // сохраняем пользователя внутри localStorage, что бы он оставался авторизированным даже при перезагрузке страниц
         localStorage.setItem('currentUser', JSON.stringify(user));
