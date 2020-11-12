@@ -20,6 +20,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function handleRoute() {
       switch (true) {
+        case url.endsWith('/users/restore-password') && method === 'POST':
+          return restorePassword();
         case url.endsWith('/users/authenticate') && method === 'POST':
           return authenticate();
         case url.endsWith('/users/register') && method === 'POST':
@@ -47,6 +49,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         fullName: user.fullName,
         token: 'fake-jwt-token'
       })
+    }
+
+    function restorePassword() {
+      const { email } = body;
+      const user = users.find(x => x.email === email);
+      if (!user) { return error('Undefined email'); }
+
+      return ok({
+        message: 'Check your email for next instructions'
+      });
     }
 
     function register() {
@@ -80,7 +92,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // helper functions
 
     function ok(body?) {
-      return of(new HttpResponse({ status: 200, body }))
+      return of(new HttpResponse({ status: 200, body }));
     }
 
     function error(message) {

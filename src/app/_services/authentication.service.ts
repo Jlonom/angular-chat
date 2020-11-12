@@ -4,10 +4,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '@/_models';
+import { AlertService } from '@/_services/alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
+  private alertService: AlertService;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
@@ -26,6 +28,14 @@ export class AuthenticationService {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
+      }));
+  }
+
+  restorePassword(email) {
+    // Отправляем запрос на восстановление пароля. В случае успеха -- передаем alert-сообщение о том, что пользователь умничка
+    return this.http.post<any>('/users/restore-password', { email })
+      .pipe(map(response => {
+        this.alertService.success(response.message);
       }));
   }
 

@@ -26,6 +26,23 @@ body {
 
     color: #9098B1;
 }
+.alert {
+  position: relative;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+}
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.alert-error{
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
 .form-group {
     margin: 8px 35.5px 0;
     position: relative;
@@ -82,7 +99,7 @@ input.form-control.is-invalid {
     flex-direction: row;
     align-items: flex-start;
     padding: 16px;
-    background: #77062A;;
+    background: #77062A;
     box-shadow: 0 10px 30px
         rgba(169, 47, 75, 0.24);
     border-radius: 5px;
