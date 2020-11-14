@@ -16,4 +16,13 @@ export class UserService {
   delete(id: number) {
     return this.http.delete(`/users/${id}`);
   }
+
+  // метод для валидации токена
+  validateRestoreToken(token: string) {
+    return this.http.get(`/users/restore-password/${token}`);
+  }
+
+  restorePassword(token: string, password: string) {
+    return this.http.post(`/users/restore-password/${token}`, {password: password});
+  }
 }

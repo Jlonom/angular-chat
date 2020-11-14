@@ -14,6 +14,7 @@ import { LoginComponent } from '@/login';
 import { RegisterComponent } from '@/register';
 import { AlertComponent } from '@/_components';
 import { ForgotPasswordComponent } from './forgot-password';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { ForgotPasswordComponent } from './forgot-password';
     LoginComponent,
     RegisterComponent,
     AlertComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ChangePasswordComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

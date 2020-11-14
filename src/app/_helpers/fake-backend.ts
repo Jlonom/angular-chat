@@ -12,6 +12,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     const { url, method, headers, body } = request;
 
     // Оборачиваем в наблюдение данные для имитации вызова API-сервера
+    // @ts-ignore
     return of(null)
       .pipe(mergeMap(handleRoute))
       .pipe(materialize()) // вызываем материализацию и дематериализацию, чтобы обеспечить задержку даже в случае возникновения ошибки
@@ -28,6 +29,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return register();
         case url.endsWith('/users') && method === 'GET':
           return getUsers();
+        case url.match(/\/users\/restore-password\/\w+$/) && method === 'GET':
+          return validateToken();
+        case url.match(/\/users\/restore-password\/\w+$/) && method === 'POST':
+          return changePassword();
         case url.match(/\/users\/\d+$/) && method === 'DELETE':
           return deleteUser();
         default:
@@ -62,7 +67,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function register() {
-      const user = body
+      const user = body;
 
       if (users.find(x => x.email === user.email)) {
         // Если уже зщарегистрирован пользователь с таким email -- выдаем ошибку
@@ -79,6 +84,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function getUsers() {
       if (!isLoggedIn()) return unauthorized();
       return ok(users);
+    }
+
+    function validateToken() {
+      return ok();
+    }
+
+    function changePassword() {
+      return ok();
     }
 
     function deleteUser() {
