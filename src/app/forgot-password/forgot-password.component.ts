@@ -13,6 +13,7 @@ export class ForgotPasswordComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  success = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -54,7 +55,7 @@ export class ForgotPasswordComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          this.success = true;
         },
         error => {
           this.alertService.error(error);
