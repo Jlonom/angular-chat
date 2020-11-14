@@ -4,8 +4,8 @@ import { HomeComponent } from '@/home';
 import { LoginComponent } from '@/login';
 import { RegisterComponent } from '@/register';
 import { AuthGuard } from '@/_helpers';
-import { ForgotPasswordComponent } from '@/forgot-password';
 import { ChangePasswordComponent } from '@/change-password';
+import { ForgotPasswordComponent } from '@/forgot-password';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // пустой url -- главная страница
