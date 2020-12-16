@@ -24,14 +24,17 @@
       <span class="message-datetime">{{message.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</span>
     </div>
   </div>
-  <!--<form class="send">
+  <form class="send" [formGroup]="sendMessageForm" (ngSubmit)="onSubmit()">
     <div class="send-message add">
-      <input class="send-text" placeholder="Type your message">
+      <input class="send-text" placeholder="Type your message"  formControlName="content">
       <div class="add">
-        <i class="fa fa-plus add-file" aria-hidden="true"></i>
+        <!--<i class="fa fa-plus add-file" aria-hidden="true"></i>
         <i class="fa fa-picture-o add-pict" aria-hidden="true"></i>
-        <i class="fa fa-microphone add-micr" aria-hidden="true"></i>
+        <i class="fa fa-microphone add-micr" aria-hidden="true"></i>-->
+        <button type="submit" class="action-button" title="Send message">
+          <i class="fa fa-plane"></i>
+        </button>
       </div>
     </div>
-  </form>-->
+  </form>
 </section>
