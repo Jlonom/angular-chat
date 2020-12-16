@@ -14,7 +14,10 @@ import { LoginComponent } from '@/login';
 import { RegisterComponent } from '@/register';
 import { AlertComponent } from '@/_components';
 import { ForgotPasswordComponent } from './forgot-password';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from '@/change-password';
+import { ChatComponent } from '@/chat';
+import { InformationComponent } from '@/information';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   imports: [
@@ -30,14 +33,17 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     RegisterComponent,
     AlertComponent,
     ForgotPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ChatComponent,
+    InformationComponent,
+    UsersComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // провайдеры, используемые для создания поддельного внутреннего интерфейса
-    fakeBackendProvider
+    // fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

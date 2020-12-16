@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     });
 
     // если в адресной строке есть, куда возвращать пользователя -- возвращаем туда. Иначе -- на главную страницу '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   // удобный getter для простого доступа к полям формы

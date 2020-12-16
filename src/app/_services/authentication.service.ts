@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { User } from '@/_models';
 import { AlertService } from '@/_services/alert.service';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
@@ -20,8 +22,12 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  updateUserData(user: User): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
   login(email, password) {
-    return this.http.post<any>(`/users/authenticate`, { email, password })
+    return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
       .pipe(map(user => {
         // сохраняем пользователя внутри localStorage, что бы он оставался авторизированным даже при перезагрузке страниц
         localStorage.setItem('currentUser', JSON.stringify(user));
@@ -32,7 +38,7 @@ export class AuthenticationService {
 
   restorePassword(email) {
     // Отправляем запрос на восстановление пароля. В случае успеха -- передаем alert-сообщение о том, что пользователь умничка
-    return this.http.post<any>('/users/restore-password', { email })
+    return this.http.post<any>(`${environment.apiUrl}/users/restore-password`, { email })
       .pipe(map(response => {
         this.alertService.success(response.message);
       }));

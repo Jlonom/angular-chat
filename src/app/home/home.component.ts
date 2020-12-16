@@ -2,16 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { User } from '@/_models';
-import { UserService, AuthenticationService } from '@/_services';
+import { UserService, AuthenticationService, ChatService } from '@/_services';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent implements OnInit {
   currentUser: User;
-  chats = [];
+  chats: any;
+  currentPage = 1;
+  itemsPerPage = 20;
+  countNewMessages = 0;
 
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService
+    private userService: UserService,
+    private chatService: ChatService
   ) {
     this.currentUser = this.authenticationService.currentUserValue;
   }
@@ -27,8 +31,8 @@ export class HomeComponent implements OnInit {
   }
 
   private loadAllChats() {
-    /*this.chatService.getAll()
+    this.chatService.getAll(this.currentPage, this.itemsPerPage, this.countNewMessages)
       .pipe(first())
-      .subscribe(chats => this.chats = chats);*/
+      .subscribe(chats => this.chats = chats);
   }
 }
