@@ -17,20 +17,21 @@
   </div>
 </div>
 <section *ngIf="loaded">
-  <div class="messages-items" #messagesItems [scrollTop]="messagesItems.scrollHeight">
-    <div *ngFor="let message of messagesData.data.items; let i = index" class="message message-{{message.message_direction}}">
-      <p class="text-message" *ngIf="message.message_type === 0">{{message.message_content}}</p>
-      <img src="{{message.message_content}}" *ngIf="message.message_type === 1" class="img" />
-      <span class="message-datetime">{{message.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+  <div class="messages-items" #messagesItems [scrollTop]="this.needScroll && messagesItems.scrollHeight" (scroll)="onScroll($event)">
+    <div *ngFor="let message of messagesData.data.items; let i = index" class="message message-{{message.messageDirection}}">
+      <p class="text-message" *ngIf="message.messageType === 0">{{message.messageContent}}</p>
+      <img *ngIf="message.messageType === 1" src="{{message.messageContent}}" class="img" alt="image message" />
+      <span class="message-datetime">{{message.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
     </div>
   </div>
   <form class="send" [formGroup]="sendMessageForm" (ngSubmit)="onSubmit()">
     <div class="send-message add">
       <input class="send-text" placeholder="Type your message"  formControlName="content">
       <div class="add">
-        <!--<i class="fa fa-plus add-file" aria-hidden="true"></i>
-        <i class="fa fa-picture-o add-pict" aria-hidden="true"></i>
-        <i class="fa fa-microphone add-micr" aria-hidden="true"></i>-->
+        <button type="button" class="action-button" title="Add photo" (click)="imageUploadInput.click()">
+          <i class="fa fa-plus"></i>
+          <input type="file" style="display: none" id="image-upload" (change)="imageUpload($event)" #imageUploadInput accept="image/jpeg, image/png" />
+        </button>
         <button type="submit" class="action-button" title="Send message">
           <i class="fa fa-plane"></i>
         </button>

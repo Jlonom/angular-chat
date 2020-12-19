@@ -29,7 +29,7 @@ export class MessagesService {
 
   onMessageArrived(message: any): void {
     const messageDecoded = JSON.parse(message.payloadString);
-    if (messageDecoded !== null && typeof(messageDecoded.message_content) !== 'undefined' && messageDecoded.message_content.length > 0) {
+    if (messageDecoded !== null && typeof(messageDecoded.messageContent) !== 'undefined' && messageDecoded.messageContent.length > 0) {
       this.messageSubject.next(messageDecoded);
     }
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthenticationService, ChatService, MessagesService } from '@/_services';
 import { first } from 'rxjs/operators';
-import {Message, User} from '@/_models';
+import {Message, Photo, User} from '@/_models';
 import { ActivatedRoute } from '@angular/router';
 import {Subscription} from 'rxjs';
 
@@ -17,6 +17,8 @@ export class ChatComponent implements OnInit {
   itemsPerPage = 20;
   countNewMessages = 0;
   loaded = false;
+  needScroll = true;
+  idsForViewed: number[];
 
   sendMessageForm: FormGroup;
 
@@ -50,15 +52,12 @@ export class ChatComponent implements OnInit {
           (message.messageFrom === this.chatID && message.messageTo === this.authenticationService.currentUserValue.id)
           || (message.messageFrom === this.authenticationService.currentUserValue.id && message.messageTo === this.chatID)
         ) ) {
-          let newMessage = {
-            message_direction: message.messageFrom === this.chatID ? 'out' : 'in',
-            message_content: message.messageContent,
-            message_type: message.messageType === 0 ? 'text' : 'image',
-            created_at: message.createdAt
-          };
-          console.log(newMessage);
-          console.log(this.messagesData);
-          this.messagesData.data.items.push();
+          message.messageDirection = message.messageFrom === this.chatID ? 'in' : 'out';
+          this.messagesData.data.items.push(message);
+          if (message.messageDirection === 'in') {
+            this.idsForViewed = [message.id];
+            this.setMessagesViewed();
+          }
         }
       });
   }
@@ -66,23 +65,68 @@ export class ChatComponent implements OnInit {
   private loadCurrentChat(): void {
     this.chatService.getChat(this.chatID, this.currentPage, this.itemsPerPage, this.countNewMessages)
       .pipe(first())
-      .subscribe(messagesData => { this.messagesData = messagesData; this.loaded = true; /*this.scrollToBottom();*/ });
+      .subscribe((messagesData: any) => {
+        for (const message of messagesData.data.items) {
+          if (message.messageDirection === 'in' && message.isViewed === 0) {
+            this.idsForViewed.push(message.id);
+          }
+        }
+        if (this.messagesData === undefined) {
+          this.messagesData = messagesData;
+        } else {
+          for (let i = (messagesData.data.items.length - 1); i >= 0; i--) {
+            this.messagesData.data.items.unshift(messagesData.data.items[i]);
+          }
+        }
+        this.loaded = true;
+        this.setMessagesViewed();
+      });
   }
 
-  onSubmit(): void {
-    const messageToSent = new Message();
-    messageToSent.messageContent = this.sendMessageForm.controls.content.value;
-    messageToSent.messageFrom = this.currentUser.id;
-    messageToSent.messageTo = this.chatID;
-    messageToSent.messageType = 'text';
-    this.messageService.sendMessage(messageToSent);
-    this.sendMessageForm.controls.content.setValue('');
-  }
-
-  scrollToBottom(): void {
-    if (typeof(this.messagesItemsContainer) !== 'undefined') {
-      this.messagesItemsContainer.nativeElement.scrollTop = this.messagesItemsContainer.nativeElement.scrollHeight;
+  setMessagesViewed(): void {
+    if (this.idsForViewed.length > 0) {
+      this.chatService.setViewed(this.idsForViewed)
+        .pipe(first())
+        .subscribe(response => this.idsForViewed = []);
     }
   }
 
+  createNewMessage(
+    messageContent: string,
+    messageType: string
+  ): Message {
+    const newMessage = new Message();
+    newMessage.messageFrom = this.currentUser.id;
+    newMessage.messageTo = this.chatID;
+    newMessage.messageContent = messageContent;
+    newMessage.messageType = messageType;
+    return newMessage;
+  }
+
+  onSubmit(): void {
+    const message = this.createNewMessage(this.sendMessageForm.controls.content.value, 'text');
+    this.messageService.sendMessage(message);
+    this.sendMessageForm.controls.content.setValue('');
+  }
+
+  imageUpload(event): void {
+    const image = event.target.files[0];
+    const uploadData = new FormData();
+    uploadData.append('message-photo', image, image.name);
+
+    this.chatService.uploadImage(uploadData)
+      .pipe(first())
+      .subscribe((userPhoto: Photo) => {
+        const photoMessage = this.createNewMessage(userPhoto.url, 'image');
+        this.messageService.sendMessage(photoMessage);
+      });
+  }
+
+  onScroll(event): void {
+    if (event.target.scrollTop < 300 && this.currentPage < this.messagesData.data.totalPages) {
+      this.needScroll = false;
+      this.currentPage++;
+      this.loadCurrentChat();
+    }
+  }
 }

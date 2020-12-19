@@ -8,11 +8,13 @@
 </header>
 <section class="chat-section">
   <div class="topnav">
-    <a class="top-nav" href="#all">All</a>
-    <a class="top-nav active" href="#">Important</a>
-    <a class="top-nav" href="#">Unread</a>
+    <a class="top-nav" [ngClass]="{'active': chatsType === 'all'}" (click)="changeChatsType('all')">All</a>
+    <a class="top-nav" [ngClass]="{'active': chatsType === 'unread'}" (click)="changeChatsType('unread')">Unread</a>
+    <a routerLink="/users" class="create-message">
+      <i class="fa fa-pencil"></i>
+    </a>
   </div>
-  <div class="chat-items-wrapper">
+  <div class="chat-items-wrapper" (scroll)="onScroll($event)">
     <div *ngFor="let chat of chats; let i = index" class="chat-item">
       <a routerLink="/chat/{{chat.chat_sender_id}}" class="chat-link">
         <div class="chat-item__image">
@@ -30,10 +32,5 @@
         </div>
       </a>
     </div>
-  </div>
-  <div class="users-list-button">
-    <a routerLink="/users" class="users-list-link">
-      <i class="fa fa-pencil"></i>
-    </a>
   </div>
 </section>

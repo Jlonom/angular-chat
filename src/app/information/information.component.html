@@ -5,8 +5,8 @@
 </div>
 <div class="chat-item" *ngIf="informationUser">
   <div class="chat-item__image">
-    <img src="{{ informationUser.photo }}" class="photo" alt="user-photo" (click)="imageUploadInput.click()">
-    <input type="file" style="display: none" id="image-upload" (change)="imageUpload($event)" #imageUploadInput />
+    <img src="{{ informationUser.photo }}" class="photo" alt="user-photo" (click)="isCurrentUser && imageUploadInput.click()">
+    <input type="file" style="display: none" id="image-upload" (change)="imageUpload($event)" #imageUploadInput  />
   </div>
   <div class="chat-item__content">
     <h4 class="setting-name">{{ informationUser.fullName }}</h4>
@@ -15,7 +15,7 @@
 <div *ngIf="informationUser">
   <div class="setting-container">
     <h3 class="acc">Account</h3>
-    <span class="inform" *ngIf="(!formIsActive || f.attribute.value !== 'fullName') && isCurrentUser" (click)="getEditForm('fullName')">{{ informationUser.fullName }}</span>
+    <span class="inform" (click)="getEditForm('fullName')">{{ informationUser.fullName }}</span>
     <div class="form-group edit-user-data" *ngIf="(formIsActive && f.attribute.value === 'fullName') && isCurrentUser">
       <input type="text" name="{{informationForm.controls.attribute.value}}" value="{{informationForm.controls.value.value}}" autofocus (focusout)="submitEditForm($event)" />
     </div>
@@ -25,7 +25,7 @@
 </div>
 <div *ngIf="informationUser">
   <div class="setting-container">
-    <span class="inform" *ngIf="(!formIsActive || f.attribute.value !== 'email') && isCurrentUser" (click)="getEditForm('email')">{{ informationUser.email }}</span>
+    <span class="inform" (click)="getEditForm('email')">{{ informationUser.email }}</span>
     <div class="form-group edit-user-data" *ngIf="(formIsActive && f.attribute.value === 'email') && isCurrentUser">
       <input type="text" name="{{informationForm.controls.attribute.value}}" value="{{informationForm.controls.value.value}}" autofocus (focusout)="submitEditForm($event)"  />
     </div>
@@ -35,7 +35,7 @@
 </div>
 <div *ngIf="informationUser">
   <div class="setting-container">
-    <span class="inform" *ngIf="(!formIsActive || f.attribute.value !== 'bio') && isCurrentUser" (click)="getEditForm('bio')">{{ informationUser.bio }}</span>
+    <span class="inform" (click)="getEditForm('bio')">{{ informationUser.bio }}</span>
     <div class="form-group edit-user-data" *ngIf="(formIsActive && f.attribute.value === 'bio') && isCurrentUser">
       <textarea name="{{informationForm.controls.attribute.value}}" autofocus (focusout)="submitEditForm($event)" >{{informationForm.controls.value.value}}</textarea>
     </div>

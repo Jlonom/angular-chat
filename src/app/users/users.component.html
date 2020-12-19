@@ -4,9 +4,9 @@
   </a>
 </div>
 <div class="user-search">
-  <label>
+  <label class="label">
     <input type="text" (keyup)="searchUsers($event)" class="user-search-input" #userSearchQuery />
-    Search
+    <span class="search-label">Search</span>
   </label>
 </div>
 <div class="users-list">
@@ -15,7 +15,7 @@
       <div class="user-photo">
         <img src="{{user.photo}}" class="photo" alt="user-photo" />
       </div>
-      <div class="user-name">
+      <div class="name-search">
         <span>{{user.fullName}}</span>
       </div>
     </a>

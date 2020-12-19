@@ -6,6 +6,7 @@ body {
 .main-section {
   position: relative;
 }
+
 .main-display {
   background: #FFFFFF;
   width: 414px;
@@ -36,7 +37,7 @@ body {
 
 .alert {
   position: relative;
-  padding: 75rem 1.25rem;
+  padding: 7px 12px;
   border: 1px solid transparent;
   border-radius: .25rem;
 }
@@ -47,7 +48,7 @@ body {
   border-color: #c3e6cd;
 }
 
-.alert-error {
+.alert-danger {
   color: #721c24;
   background-color: #f8d7da;
   border-color: #c3e6cd;
@@ -128,7 +129,7 @@ input.form-control.is-invalid {
   align-self: center;
   justify-content: center;
   height: 57px;
-  font-family: 'Poppins';
+  font-family: 'Poppins', serif;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
@@ -146,7 +147,7 @@ input.form-control.is-invalid {
 }
 
 .actions p {
-  font-family: 'Poppins';
+  font-family: 'Poppins', serif;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
@@ -160,7 +161,7 @@ input.form-control.is-invalid {
 }
 
 .forgot {
-  font-family: 'Poppins';
+  font-family: 'Poppins', serif;
   font-weight: bold;
   font-size: 12px;
   line-height: 150%;
@@ -196,6 +197,7 @@ input.form-control.is-invalid {
   padding-right: 27px;
   color: #77062A;
   font-size: 20px;
+  text-decoration: none;
 }
 
 .header-chat, .chat-settings-button {
@@ -214,6 +216,7 @@ input.form-control.is-invalid {
   font-size: 17px;
   background-color: #FFFFFF;
   display: inline-block;
+  margin: 3px;
 }
 
 .topnav a:hover, .topnav a.active {
@@ -226,6 +229,8 @@ input.form-control.is-invalid {
   margin: 44px 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow-y: auto;
 }
 
 .chat-item {
@@ -395,7 +400,7 @@ input.form-control.is-invalid {
   margin: 36px 19px 0 27px;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 133px);
+  max-height: calc(100vh - 238px);
   overflow-y: auto;
 }
 
@@ -439,15 +444,17 @@ input.form-control.is-invalid {
 
 .send {
   width: 414px;
-  height: 129px;
+  height: 80px;
   left: 0px;
   top: 767px;
   background: #FFFFFF;
 }
 
 .send-message {
+  display: flex;
+  flex-direction: row;
   background: #f1f1f1;
-  padding: 27px 168px 27px 31px;
+  padding: 9px 100px 9px 65px;
   border-radius: 25px;
   margin: 26px 28px 28px 27px;
 }
@@ -462,10 +469,11 @@ input.form-control.is-invalid {
 .send-message .send-text {
   color: black;
 }
+
 .message-datetime {
   position: absolute;
   font-size: 12px;
-  color: #FFF;
+  color: #FFFFFF;
   bottom: 10px;
   right: 14px;
 }
@@ -493,14 +501,14 @@ input.form-control.is-invalid {
   top: 28px;
   padding: 38px 59px 13px 20px;
 
-  font-family: 'Gilroy';
+  font-family: 'Gilroy', serif;
   font-size: 25px;
   line-height: 29px;
 
   color: #77062A;
 }
 .setting-name {
-  font-family: 'Gilroy';
+  font-family: 'Gilroy', serif;
   font-weight: bold;
   font-size: 23px;
   line-height: 28px;
@@ -563,14 +571,15 @@ input.form-control.is-invalid {
 .exit {
   display: flex;
   flex-direction: row;
-  cursor: pointer;
-  background-color: #77062A;
+  background-color: #77062a;
   width: 200px;
   height: 50px;
-  padding-top: 30px;
   padding-left: 50px;
+  padding-top: 30px;
   border-radius: 15px;
   margin-left: 50px;
+  margin-top: 50px;
+  cursor: pointer;
 }
 .logout {
   width: 28px;
@@ -581,7 +590,6 @@ input.form-control.is-invalid {
   font-family: 'Gilroy', serif;
   font-size: 18px;
   line-height: 21px;
-
   color: #ffffff;
 
 }
@@ -599,22 +607,56 @@ input.form-control.is-invalid {
 .chat-section {
   position: relative;
 }
-.users-list-button {
-  width: 40px;
-  height: 40px;
-  position: fixed;
-  right: calc(50% - 150px);
-  bottom: 20px;
+.topnav .create-message {
+  background-color: #77062a;
+  color: #fff;
+  border-radius: 20px;
 }
-.users-list-button a {
+.users-list {
+  margin-top: 40px;
+}
+.user-item {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  margin: 25px;
   text-decoration: none;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+}
+.user-photo {
+  width: 82px;
+  height: 82px;
+}
+.name-search  {
+  letter-spacing: -0.165px;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 25px;
+  padding-top: 25px;
+  padding-left: 30px;
+  color: #721c24;
+}
+.search-label {
+  display: flex;
+  flex-grow: 1;
   background: #721c24;
-  border-radius: 50%;
-  color: #FFF;
+  color: #FFFFFF;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 10px;
+}
+.user-search-input {
+  flex-shrink: 1;
+  flex-grow: 16;
+  border-radius: 7px 0 0 7px;
+  border: 1px solid #731c24;
+}
+.label {
+  display: flex;
+}
+.action-button {
+  padding: 10px;
+  border-color: transparent;
+  border-radius: 20px;
+  font-size: 21px;
+  margin-left: 20px;
+  color: #721c24;
 }
